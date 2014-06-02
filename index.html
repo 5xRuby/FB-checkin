@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>FB Checkin</title>
   <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="style/fireworks.css" media="screen" />
 </head>
 <body>
   <div class="container">
@@ -12,8 +13,19 @@
     </div>
     <div id="checkins" class="text-center"></div>
   </div>
+
+  <!-- Fireworks elements -->
+  <div id="fireworks-template">
+   <div id="fw" class="firework"></div>
+   <div id="fp" class="fireworkParticle"><img src="image/particles.gif" alt="" /></div>
+  </div>
+  <div id="fireContainer"></div>
+
+  <!-- Scripts -->
   <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="script/soundmanager2-nodebug-jsmin.js"></script>
+  <script type="text/javascript" src="script/fireworks.js"></script>
   <script>
     // Settings
     OBJ_ID = '118876001516849'; // Change this if needed
@@ -21,7 +33,37 @@
     CHECKINS = document.getElementById('checkins');
     CYCLE = 1000;
 
+    // Init
     CHECKINS.style.fontSize = window.innerHeight/2 + 'px';
+
+    // Functions
+    function startFirework() {
+      // change theme to dark
+      document.body.style.backgroundColor = 'black';
+      CHECKINS.style.color = 'white';
+
+      // fireworks
+      (function fireworks() {
+        createFirework(null,null,null,null,null,null,null,null,false,true);
+        setTimeout(fireworks, Math.random() * 500);
+      })();
+
+      // victory music
+      setTimeout(function(){
+        soundManager.play('victory')
+
+        // fade all sounds out afer 3 seconds
+        setTimeout(function(){
+          var volume = 100;
+          (function fadeOutSounds() {
+            for(var sound in soundManager.sounds) soundManager.setVolume(sound, volume);
+            volume -= 1;
+            if(volume >= 0) setTimeout(fadeOutSounds, 100);
+          })();
+        }, 3000);
+      }, 3000);
+    }
+
     (function tick(){
       $.ajax({
         url: 'http://graph.facebook.com/' + OBJ_ID,
