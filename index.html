@@ -10,29 +10,30 @@
     <div class="page-header">
       <h1 id="title"></h1>
     </div>
-    <div id="checkins"></div>
+    <div id="checkins" class="text-center"></div>
   </div>
-  <!-- https:http://graph.facebook.com/118876001516849 -->
   <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
   <script>
-    OBJ_ID = '118876001516849';
+    // Settings
+    OBJ_ID = '118876001516849'; // Change this if needed
     TITLE = document.getElementById('title');
     CHECKINS = document.getElementById('checkins');
-    // CHECKINS.style.fontSize = window.innerHeight + 'px'
+    CYCLE = 1000;
+
+    CHECKINS.style.fontSize = window.innerHeight/2 + 'px';
     (function tick(){
       $.ajax({
         url: 'http://graph.facebook.com/' + OBJ_ID,
         dataType: 'json',
         async: false
       }).done(function(data){
-        console.debug(data);
         var name = data.name;
         var checkins = data.checkins;
         TITLE.innerText = name;
         CHECKINS.innerText = checkins;
       });
-      setTimeout(tick, 1000);
+      setTimeout(tick, CYCLE);
     }).call();
   </script>
 </body>
