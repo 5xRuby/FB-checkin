@@ -26,16 +26,18 @@
   <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
   <script src="script/soundmanager2-nodebug-jsmin.js"></script>
   <script src="script/fireworks.js"></script>
-  <script src="script/jquery.fittext.js"></script>
   <script>
     // Settings
-    OBJ_ID = '118876001516849'; // Change this if needed
+    OBJ_ID = '663811123708712'; // Change this if needed
     TITLE = document.getElementById('title');
     CHECKINS = document.getElementById('checkins');
     CYCLE = 1000;
 
     // Init
-    $("#checkins").fitText(0.27);
+    function setFont() {CHECKINS.style.fontSize = window.innerHeight * 0.6 + 'px'; }
+    setFont();
+    window.addEventListener('resize', setFont);
+
 
     // Functions
     function startFirework() {
