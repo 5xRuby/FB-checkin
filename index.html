@@ -7,7 +7,7 @@
   <link rel="stylesheet" type="text/css" href="style/fireworks.css" media="screen" />
 </head>
 <body>
-  <div class="container">
+  <div class="container-fluid">
     <div class="page-header">
       <h1 id="title"></h1>
     </div>
@@ -24,8 +24,9 @@
   <!-- Scripts -->
   <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="script/soundmanager2-nodebug-jsmin.js"></script>
-  <script type="text/javascript" src="script/fireworks.js"></script>
+  <script src="script/soundmanager2-nodebug-jsmin.js"></script>
+  <script src="script/fireworks.js"></script>
+  <script src="script/jquery.fittext.js"></script>
   <script>
     // Settings
     OBJ_ID = '118876001516849'; // Change this if needed
@@ -34,7 +35,7 @@
     CYCLE = 1000;
 
     // Init
-    CHECKINS.style.fontSize = window.innerHeight/2 + 'px';
+    $("#checkins").fitText(0.27);
 
     // Functions
     function startFirework() {
