@@ -5,13 +5,31 @@
   <title>FB Checkin</title>
   <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="style/fireworks.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="style/csshake.min.css" media="screen" />
+  <style>
+    #ohohoh{
+      position: absolute;
+      font-size: 100px;
+      display: none;
+    }
+  </style>
 </head>
 <body>
   <div class="container-fluid">
     <div class="page-header">
       <h1 id="title"></h1>
     </div>
-    <div id="checkins" class="text-center"></div>
+    <div class="row">
+      <div class="col-sm-6"><img class="img-responsive" src="image/qr.png"></div>
+      <div class="col-sm-6">
+        <div class="progress progress-striped active">
+          <div id="progress" class="progress-bar progress-bar-danger"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 95%">
+          </div>
+        </div>
+        <a id="ohohoh" href="javascript:startFirework()" class="btn btn-danger btn-large shake shake-constant">喔喔喔！！！</a>
+        <div id="checkins" class="text-center"></div>
+      </div>
+    </div>
   </div>
 
   <!-- Fireworks elements -->
@@ -31,10 +49,13 @@
     OBJ_ID = '663811123708712'; // Change this if needed
     TITLE = document.getElementById('title');
     CHECKINS = document.getElementById('checkins');
+    PROGRESS = document.getElementById('progress');
+    OHOHOH = document.getElementById('ohohoh');
     CYCLE = 1000;
+    MAX_COUNT = 80;
 
     // Init
-    function setFont() {CHECKINS.style.fontSize = window.innerHeight * 0.6 + 'px'; }
+    function setFont() { CHECKINS.style.fontSize = window.innerHeight * 0.7 + 'px'; }
     setFont();
     window.addEventListener('resize', setFont);
 
@@ -75,8 +96,13 @@
       }).done(function(data){
         var name = data.name;
         var checkins = data.checkins;
+        var likes = data.likes;
         TITLE.innerText = name;
-        CHECKINS.innerText = checkins;
+        total = checkins + likes;
+        CHECKINS.innerText = total;
+        PROGRESS.style.width = total/MAX_COUNT*100 + '%';
+        if(total >= MAX_COUNT) OHOHOH.style.display = 'block';
+        else OHOHOH.style.display = 'none';
       });
       setTimeout(tick, CYCLE);
     }).call();
