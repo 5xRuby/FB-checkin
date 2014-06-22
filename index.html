@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>五倍紅寶石課程說明會</title>
+  <title></title>
   <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="style/fireworks.css" media="screen" />
   <link rel="stylesheet" type="text/css" href="style/csshake.min.css" media="screen" />
@@ -20,7 +20,7 @@
       <h1 id="title"></h1>
     </div>
     <div class="row">
-      <div class="col-sm-6"><img class="img-responsive" src="image/qr.png"></div>
+      <div class="col-sm-6"><div id="qrcode"></div></div>
       <div class="col-sm-6">
         <div class="progress progress-striped active">
           <div id="progress" class="progress-bar progress-bar-danger"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 95%">
@@ -44,27 +44,42 @@
   <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
   <script src="script/soundmanager2-nodebug-jsmin.js"></script>
   <script src="script/fireworks.js"></script>
+  <script src="script/qrcode.js"></script>
   <script>
+    function getParameterByName(name) {
+      name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+      var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"), results = regex.exec(location.search);
+      return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
     // Settings
-    OBJ_ID = '663811123708712'; // Change this if needed
+    OBJ_ID       = getParameterByName('obj_id')       || '5xruby';       // 粉絲頁 ID
+    FONT_SIZE    = getParameterByName('font_size')    || 0.5;            // 倒數數字大小
+    QR_CODE_SIZE = getParameterByName('qr_code_size') || 600;            // QRCode 圖片大小（500 px）
+    MAX_COUNT    = getParameterByName('max_count')    || 500;            // 讚、打卡最大值
+    CYCLE        = getParameterByName('cycle')        || 1000;           // 更新頻率（1 秒）
+
+    // Constants
+    HEAD_TITLE = document.head.getElementsByTagName('title')[0];
     TITLE = document.getElementById('title');
     CHECKINS = document.getElementById('checkins');
     PROGRESS = document.getElementById('progress');
     OHOHOH = document.getElementById('ohohoh');
-    CYCLE = 1000;
-    MAX_COUNT = 80;
 
     // Init
-    function setFont() { CHECKINS.style.fontSize = window.innerHeight * 0.7 + 'px'; }
+    //   Font
+    function setFont() { CHECKINS.style.fontSize = window.innerHeight * FONT_SIZE + 'px'; }
     setFont();
     window.addEventListener('resize', setFont);
+    //   QRCode
+    new QRCode(document.getElementById("qrcode"), {text: 'fb://profile/' + OBJ_ID, width: QR_CODE_SIZE, height: QR_CODE_SIZE});
+    $('#qrcode > img').addClass('img-responsive')
 
 
     // Functions
     function startFirework() {
       // change theme to dark
       document.body.style.backgroundColor = 'black';
-      CHECKINS.style.color = 'white';
+      TITLE.style.color = CHECKINS.style.color = 'white';
 
       // fireworks
       (function fireworks() {
@@ -91,13 +106,12 @@
     (function tick(){
       $.ajax({
         url: 'http://graph.facebook.com/' + OBJ_ID,
-        dataType: 'json',
-        async: false
+        dataType: 'json'
       }).done(function(data){
         var name = data.name;
         var checkins = data.checkins;
         var likes = data.likes;
-        TITLE.innerText = name;
+        HEAD_TITLE.innerText = TITLE.innerText = name;
         total = checkins + likes;
         CHECKINS.innerText = total;
         PROGRESS.style.width = total/MAX_COUNT*100 + '%';
