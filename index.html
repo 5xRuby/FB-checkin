@@ -119,13 +119,12 @@
         total = checkins + likes;
         CHECKINS.innerText = total;
         PROGRESS.style.width = total/MAX_COUNT*100 + '%';
-        if(AUTO_FIRE){
-          if(!FIRED) startFirework();
-          FIRED = true;
-        }else{
-          if(total >= MAX_COUNT) OHOHOH.style.display = 'block';
-          else OHOHOH.style.display = 'none';
-        }
+        if(total >= MAX_COUNT){
+          if(AUTO_FIRE){
+            if(!FIRED) startFirework();
+            FIRED = true;
+          }else OHOHOH.style.display = 'block';
+        }else OHOHOH.style.display = 'none';
       });
       setTimeout(tick, CYCLE);
     }).call();
