@@ -9,7 +9,6 @@
   <style>
     #ohohoh{
       position: absolute;
-      font-size: 100px;
       display: none;
     }
   </style>
@@ -54,6 +53,8 @@
     // Settings
     OBJ_ID       = getParameterByName('obj_id')       || '5xruby'; // 粉絲頁 ID
     FONT_SIZE    = getParameterByName('font_size')    || 0.5;      // 倒數數字大小
+    AUTO_FIRE    = getParameterByName('auto_fire')    || false;    // 自動放煙火
+    BTN_SIZE     = getParameterByName('btn_size')     || 100;      // 啟動煙火按大小
     QR_CODE_SIZE = getParameterByName('qr_code_size') || 600;      // QRCode 圖片大小（500 px）
     MAX_COUNT    = getParameterByName('max_count')    || 500;      // 讚、打卡最大值
     CYCLE        = getParameterByName('cycle')        || 1000;     // 更新頻率（1 秒）
@@ -64,12 +65,15 @@
     CHECKINS = document.getElementById('checkins');
     PROGRESS = document.getElementById('progress');
     OHOHOH = document.getElementById('ohohoh');
+    FIRED = false;
 
     // Init
     //   Font
     function setFont() { CHECKINS.style.fontSize = window.innerHeight * FONT_SIZE + 'px'; }
     setFont();
     window.addEventListener('resize', setFont);
+    // Button
+    OHOHOH.style.fontSize = BTN_SIZE + 'px';
     //   QRCode
     new QRCode(document.getElementById("qrcode"), {text: 'fb://profile/' + OBJ_ID, width: QR_CODE_SIZE, height: QR_CODE_SIZE});
     $('#qrcode > img').addClass('img-responsive')
@@ -115,8 +119,13 @@
         total = checkins + likes;
         CHECKINS.innerText = total;
         PROGRESS.style.width = total/MAX_COUNT*100 + '%';
-        if(total >= MAX_COUNT) OHOHOH.style.display = 'block';
-        else OHOHOH.style.display = 'none';
+        if(AUTO_FIRE){
+          if(!FIRED) startFirework();
+          FIRED = true;
+        }else{
+          if(total >= MAX_COUNT) OHOHOH.style.display = 'block';
+          else OHOHOH.style.display = 'none';
+        }
       });
       setTimeout(tick, CYCLE);
     }).call();
