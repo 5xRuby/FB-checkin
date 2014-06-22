@@ -7,7 +7,7 @@
 ## 使用範例
 
 - 打卡最大值為 1000：http://5xruby.github.io/FB-checkin?max_count=1000
-- 指定粉絲團與最大值：http://5xruby.github.io/FB-checkin?max_count=500&obj_id=IMWaffle
+- 指定粉絲團、最大值與指定字體大小：http://localhost:8000/index.html?max_count=10000&obj_id=IMWaffle&font_size=0.3
 
 ## 變數說明
 
