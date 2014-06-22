@@ -52,11 +52,11 @@
       return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
     }
     // Settings
-    OBJ_ID       = getParameterByName('obj_id')       || '5xruby';       // 粉絲頁 ID
-    FONT_SIZE    = getParameterByName('font_size')    || 0.5;            // 倒數數字大小
-    QR_CODE_SIZE = getParameterByName('qr_code_size') || 600;            // QRCode 圖片大小（500 px）
-    MAX_COUNT    = getParameterByName('max_count')    || 500;            // 讚、打卡最大值
-    CYCLE        = getParameterByName('cycle')        || 1000;           // 更新頻率（1 秒）
+    OBJ_ID       = getParameterByName('obj_id')       || '5xruby'; // 粉絲頁 ID
+    FONT_SIZE    = getParameterByName('font_size')    || 0.5;      // 倒數數字大小
+    QR_CODE_SIZE = getParameterByName('qr_code_size') || 600;      // QRCode 圖片大小（500 px）
+    MAX_COUNT    = getParameterByName('max_count')    || 500;      // 讚、打卡最大值
+    CYCLE        = getParameterByName('cycle')        || 1000;     // 更新頻率（1 秒）
 
     // Constants
     HEAD_TITLE = document.head.getElementsByTagName('title')[0];
